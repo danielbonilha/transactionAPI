@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import br.com.transactions.constants.API;
+import br.com.transactions.constants.OperationType;
 import br.com.transactions.dao.TransactionDAO;
 import br.com.transactions.entity.Transaction;
 import br.com.transactions.service.PaymentService;
@@ -41,7 +42,7 @@ public class TransactionController {
 	PaymentService paymentService;
 	
 	
-	@GetMapping
+	@GetMapping(API.TRANSACTIONS)
 	@JsonView(Views.TransactionView.class)
 	public ResponseEntity<?> getAll() {
 		try {
@@ -71,6 +72,7 @@ public class TransactionController {
 		newOne.setBalance(newOne.getAmount());
 		newOne.setEventDate(LocalDate.now());
 		newOne.setDueDate(getDueDate());
+		newOne.setChargeOrder(getChargeOrder(newOne.getOperationType()));
 		
 		try {
 			transactionDAO.save(newOne);
@@ -95,6 +97,7 @@ public class TransactionController {
 				continue;
 			}
 			
+			payment.setOperationType(4);
 			payment.setBalance(payment.getAmount());
 			payment.setEventDate(LocalDate.now());
 			payment.setDueDate(getDueDate());
@@ -112,5 +115,15 @@ public class TransactionController {
 
 	private LocalDate getDueDate() {
 		return LocalDate.now().plusMonths(1);
-	}	
+	}
+	
+	private int getChargeOrder(int operationType) {
+		OperationType[] ops = OperationType.values();
+		for (OperationType op : ops) {
+			if (op.getId() == operationType)
+				return op.getChargeOrder();
+		}
+		return 0;
+	}
+
 }

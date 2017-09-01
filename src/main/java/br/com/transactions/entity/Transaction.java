@@ -25,6 +25,7 @@ public class Transaction implements Serializable {
 	private double balance;
 	private LocalDate eventDate;
 	private LocalDate dueDate;
+	private int chargeOrder;
 	private String errorMessage;
 	
 	
@@ -94,6 +95,14 @@ public class Transaction implements Serializable {
 	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
+	
+	public int getChargeOrder() {
+		return chargeOrder;
+	}
+
+	public void setChargeOrder(int chargeOrder) {
+		this.chargeOrder = chargeOrder;
+	}
 
 	@Transient
 	@JsonView(Views.ErrorView.class)
@@ -115,6 +124,7 @@ public class Transaction implements Serializable {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(balance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + chargeOrder;
 		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
 		result = prime * result + ((errorMessage == null) ? 0 : errorMessage.hashCode());
 		result = prime * result + ((eventDate == null) ? 0 : eventDate.hashCode());
@@ -137,6 +147,8 @@ public class Transaction implements Serializable {
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
 		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
+			return false;
+		if (chargeOrder != other.chargeOrder)
 			return false;
 		if (dueDate == null) {
 			if (other.dueDate != null)
@@ -167,7 +179,7 @@ public class Transaction implements Serializable {
 	public String toString() {
 		return "Transaction [id=" + id + ", accountId=" + accountId + ", operationType=" + operationType + ", amount="
 				+ amount + ", balance=" + balance + ", eventDate=" + eventDate + ", dueDate=" + dueDate
-				+ ", errorMessage=" + errorMessage + "]";
+				+ ", chargeOrder=" + chargeOrder + ", errorMessage=" + errorMessage + "]";
 	}
-	
+
 }

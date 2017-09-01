@@ -14,7 +14,7 @@ public class ValidatorUtil {
 	private static ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	private static Validator validator = factory.getValidator();
 
-	public static void validateAccount(Transaction question) {
+	public static void validatePayment(Transaction question) {
 		Set<ConstraintViolation<Transaction>> constraintViolations = validator.validate(question);
 		
 		if (constraintViolations.size() > 0) {

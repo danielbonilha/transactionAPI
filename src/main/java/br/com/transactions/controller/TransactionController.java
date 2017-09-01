@@ -1,6 +1,7 @@
 package br.com.transactions.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,22 +58,22 @@ public class TransactionController {
 	public ResponseEntity<?> postOne(@RequestBody Transaction newOne) {
 		newOne.setId(null);
 		
-		ValidatorUtil.validateAccount(newOne);
+		ValidatorUtil.validatePayment(newOne);
 		if (newOne.getErrorMessage() != null) {
+			return new ResponseEntity<>(viewHelper.getErrorView(newOne), HttpStatus.BAD_REQUEST);
+		}
+		
+		if (newOne.getOperationType() == 4) {
+			newOne.setErrorMessage("Operação não permitida nesta API");
 			return new ResponseEntity<>(viewHelper.getErrorView(newOne), HttpStatus.BAD_REQUEST);
 		}
 		
 		newOne.setBalance(newOne.getAmount());
 		newOne.setEventDate(LocalDate.now());
-		newOne.setDueDate(LocalDate.now().plusMonths(1));
+		newOne.setDueDate(getDueDate());
 		
 		try {
 			transactionDAO.save(newOne);
-			
-			if (newOne.getOperationType() == 4) {
-				paymentService.executePayment(newOne);
-			}
-			
 			return new ResponseEntity<>(viewHelper.getTransactionView(newOne), HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error("Erro ao criar transaction", e);
@@ -82,4 +83,34 @@ public class TransactionController {
 	}
 	
 	
+	@PostMapping(API.PAYMENTS)
+	public ResponseEntity<?> executePayment(@RequestBody List<Transaction> payments) {
+		
+		for (Transaction payment : payments) {
+			payment.setId(null);
+			
+			ValidatorUtil.validatePayment(payment);
+			if (payment.getErrorMessage() != null) {
+				logger.error("Pagamento inválido. " + payment.toString());
+				continue;
+			}
+			
+			payment.setBalance(payment.getAmount());
+			payment.setEventDate(LocalDate.now());
+			payment.setDueDate(getDueDate());
+			
+			try {
+				transactionDAO.save(payment);
+				paymentService.executePayment(payment);
+			} catch (Exception e) {
+				logger.error("Erro ao executar pagamento : " + payment.toString(), e);
+				continue;
+			}
+		}
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	private LocalDate getDueDate() {
+		return LocalDate.now().plusMonths(1);
+	}	
 }

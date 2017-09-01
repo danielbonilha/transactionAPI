@@ -50,7 +50,6 @@ public class Transaction implements Serializable {
 	}
 
 	@JsonView(Views.TransactionView.class)
-	@NotNull(message = "O campo OperationType é obrigatório")
 	public int getOperationType() {
 		return operationType;
 	}

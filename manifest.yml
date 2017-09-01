@@ -5,6 +5,8 @@ applications:
   memory: 1G
   disk_quota: 256M
   path: target/transactions-api-1.0.jar
+  env:
+    account.service.host: https://accounts-api-danielbonilha.cfapps.io
   services:
   - transaction-api-db
   - transaction-api-logs

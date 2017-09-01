@@ -1,0 +1,135 @@
+= RESTful Account API
+Daniel Bonilha;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP Verbos
+
+|===
+|Verbo | Uso
+
+| `GET`
+| Usado para buscar um objeto
+
+| `POST`
+| Usado para salvar um novo objeto
+
+| `PUT`
+| Usado para atualizar um objeto
+
+| `DELETE`
+| Usado para excluir um objeto
+
+| `PATCH`
+| Usado para enviar um comando de mudança de estado
+|===
+
+
+
+[[overview-http-status-code]]
+== HTTP Status Codes
+
+|===
+|Status Code | Uso
+
+| `200 OK`
+| Request realizado com sucesso
+
+| `201 Created`
+| Objeto criado com sucesso
+
+| `204 No Content`
+| Objeto excluído com sucesso
+
+| `400 Bad Request`
+| Request contém um JSON malformado
+
+| `404 Not Found`
+| O objeto não existe
+|===
+
+
+'''
+
+
+[[resources]]
+= Resources
+
+[[resources-accounts]]
+== Objeto Account
+
+
+[[resource-account-post]]
+=== POST ACCOUNT
+
+Cria uma `Account`.
+
+==== Descrição dos Campos
+
+include::{snippets}/accounts/post/sucess/request-fields.adoc[]
+
+==== Exemplo de request
+
+include::{snippets}/accounts/post/sucess/http-request.adoc[]
+
+==== Exemplo de response
+
+include::{snippets}/accounts/post/sucess/http-response.adoc[]
+
+
+
+'''
+
+
+[[resource-account-getlimits]]
+=== GET ACCOUNT LIMITS
+
+Retorna todos objetos do tipo `Account` em um Array com seus respectivos limites
+
+==== Exemplo de request
+
+include::{snippets}/accounts/get/sucess/http-request.adoc[]
+
+==== Exemplo de response
+
+include::{snippets}/accounts/get/sucess/http-response.adoc[]
+
+
+'''
+
+
+[[resource-account-patch]]
+=== PATCH ACCOUNT
+
+Emite um comando para impactar o saldo de uma `Account`
+
+==== URL
+
+include::{snippets}/accounts/patch/sucess/path-parameters.adoc[]
+
+==== Descrição dos Campos
+
+include::{snippets}/accounts/patch/sucess/request-fields.adoc[]
+
+==== Exemplo de request
+
+include::{snippets}/accounts/patch/sucess/http-request.adoc[]
+
+==== Exemplo de response
+
+include::{snippets}/accounts/patch/sucess/http-response.adoc[]
+
+==== 404 Not Found
+
+Caso seja fornecido um `{id}` de resultado inexistente
+
+include::{snippets}/accounts/patch/fail/http-request.adoc[]
+include::{snippets}/accounts/patch/fail/http-response.adoc[]

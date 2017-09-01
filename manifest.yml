@@ -1,0 +1,10 @@
+---
+applications:
+- name: transactions-api-danielbonilha
+  instances: 1
+  memory: 1G
+  disk_quota: 256M
+  path: target/transactions-api-1.0.jar
+  services:
+  - transaction-api-db
+  - transaction-api-logs

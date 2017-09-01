@@ -5,16 +5,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import br.com.transactions.constants.API;
 import br.com.transactions.dao.PaymentTrackDAO;
 import br.com.transactions.dao.TransactionDAO;
-import br.com.transactions.dto.Account;
 import br.com.transactions.entity.PaymentTrack;
 import br.com.transactions.entity.Transaction;
 
@@ -23,8 +17,6 @@ public class PaymentService {
 	
 	Logger logger = LoggerFactory.getLogger(PaymentService.class);
 	
-	@Value("${account.service.host}")
-	private String accountServiceHost;
 	
 	@Autowired
 	TransactionDAO transactionDAO;
@@ -33,8 +25,8 @@ public class PaymentService {
 	PaymentTrackDAO trackingDAO;
 	
 	@Autowired
-	RestTemplate restTemplate;
-
+	RemoteServiceHandler remoteServiceHandler;
+	
 	
 	public void executePayment(Transaction payment) {
 		List<Transaction> transactions = null;
@@ -80,29 +72,12 @@ public class PaymentService {
 		payment.setBalance(payment.getBalance() - amountToSettle);
 		
 		//atualiza os limites de account
-		updateAccountLimits(payment.getAccountId(), amountToSettle);
+		remoteServiceHandler.updateAccountLimits(payment.getAccountId(), amountToSettle);
 		
 		//cria log dos event
 		trackPayment(payment, transactions, amountToSettle);
 	}
 	
-	private void updateAccountLimits(int accountId, double amountToSettle) {
-		Account acc = new Account();
-		acc.setId(Long.valueOf(accountId));
-		acc.setAvailableCreditLimit(amountToSettle);
-		acc.setAvailableWithdrawalLimit(amountToSettle);
-		
-		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-		
-		try {
-			String url = accountServiceHost + API.ACCOUNT_LIMIT_SVC + "/" + accountId;
-			restTemplate.patchForObject(url, new HttpEntity<Account>(acc), Account.class);
-		} catch (Exception e) {
-			logger.error("Erro ao conectar no serviço accountService", e);
-		}
-		
-	}
-
 	private void trackPayment(Transaction payment, Transaction transaction, double amountToSettle) {
 		PaymentTrack tracking = new PaymentTrack();
 		tracking.setDebitTransactionId(payment.getId());
@@ -114,7 +89,5 @@ public class PaymentService {
 			logger.error("Erro ao salvar log de transação");
 		}
 	}
-
-	
 	
 }

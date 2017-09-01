@@ -21,6 +21,7 @@ import br.com.transactions.constants.OperationType;
 import br.com.transactions.dao.TransactionDAO;
 import br.com.transactions.entity.Transaction;
 import br.com.transactions.service.PaymentService;
+import br.com.transactions.service.RemoteServiceHandler;
 import br.com.transactions.validation.ValidatorUtil;
 import br.com.transactions.view.ViewHelper;
 import br.com.transactions.view.Views;
@@ -40,6 +41,9 @@ public class TransactionController {
 	
 	@Autowired
 	PaymentService paymentService;
+	
+	@Autowired
+	RemoteServiceHandler remoteServiceHandler;
 	
 	
 	@GetMapping(API.TRANSACTIONS)
@@ -76,6 +80,7 @@ public class TransactionController {
 		
 		try {
 			transactionDAO.save(newOne);
+			remoteServiceHandler.updateAccountLimits(newOne.getAccountId(), -newOne.getAmount());
 			return new ResponseEntity<>(viewHelper.getTransactionView(newOne), HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error("Erro ao criar transaction", e);

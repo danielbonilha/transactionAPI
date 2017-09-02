@@ -26,5 +26,6 @@ A API pode ser usada e testada na cloud, com banco de dados individual
 _https://transactions-api-danielbonilha.cfapps.io_
 
 
-##### https://transactions-api-danielbonilha.cfapps.io/v1/accounts/limits
+##### https://transactions-api-danielbonilha.cfapps.io/v1/transactions
+##### https://transactions-api-danielbonilha.cfapps.io/v1/tracking
 ##### https://transactions-api-danielbonilha.cfapps.io/docs/index.html

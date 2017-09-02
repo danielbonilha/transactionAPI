@@ -17,18 +17,17 @@ import br.com.transactions.view.Views;
 public class Transaction implements Serializable {
 
 	private static final long serialVersionUID = -1953790035144924625L;
-	
+
 	private Long id;
-	private int accountId;
+	private Integer accountId;
 	private int operationType;
-	private double amount;
+	private Double amount;
 	private double balance;
 	private LocalDate eventDate;
 	private LocalDate dueDate;
 	private int chargeOrder;
 	private String errorMessage;
-	
-	
+
 	@Id
 	@GeneratedValue
 	@JsonView(Views.IdView.class)
@@ -41,12 +40,12 @@ public class Transaction implements Serializable {
 	}
 
 	@JsonView(Views.TransactionView.class)
-	@NotNull(message = "O campo AccountId é obrigatório")
-	public int getAccountId() {
+	@NotNull(message = "Campo AccountId requerido")
+	public Integer getAccountId() {
 		return accountId;
 	}
 
-	public void setAccountId(int accountId) {
+	public void setAccountId(Integer accountId) {
 		this.accountId = accountId;
 	}
 
@@ -60,12 +59,12 @@ public class Transaction implements Serializable {
 	}
 
 	@JsonView(Views.TransactionView.class)
-	@NotNull(message = "O campo Amount é obrigatório")
-	public double getAmount() {
+	@NotNull(message = "Campo Amount requerido")
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
@@ -95,7 +94,7 @@ public class Transaction implements Serializable {
 	public void setDueDate(LocalDate dueDate) {
 		this.dueDate = dueDate;
 	}
-	
+
 	public int getChargeOrder() {
 		return chargeOrder;
 	}
@@ -118,10 +117,9 @@ public class Transaction implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + accountId;
+		result = prime * result + ((accountId == null) ? 0 : accountId.hashCode());
+		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
 		long temp;
-		temp = Double.doubleToLongBits(amount);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(balance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + chargeOrder;
@@ -142,9 +140,15 @@ public class Transaction implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Transaction other = (Transaction) obj;
-		if (accountId != other.accountId)
+		if (accountId == null) {
+			if (other.accountId != null)
+				return false;
+		} else if (!accountId.equals(other.accountId))
 			return false;
-		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
+		if (amount == null) {
+			if (other.amount != null)
+				return false;
+		} else if (!amount.equals(other.amount))
 			return false;
 		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
 			return false;

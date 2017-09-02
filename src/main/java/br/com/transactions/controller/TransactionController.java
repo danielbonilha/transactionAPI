@@ -73,9 +73,11 @@ public class TransactionController {
 			return new ResponseEntity<>(viewHelper.getErrorView(newOne), HttpStatus.BAD_REQUEST);
 		}
 		
+		newOne.setAmount(-newOne.getAmount());
 		newOne.setBalance(newOne.getAmount());
-		newOne.setEventDate(LocalDate.now());
-		newOne.setDueDate(getDueDate());
+		if (newOne.getEventDate() == null)
+			newOne.setEventDate(LocalDate.now());
+		newOne.setDueDate(getDueDate(newOne.getEventDate()));
 		newOne.setChargeOrder(getChargeOrder(newOne.getOperationType()));
 		
 		try {
@@ -104,8 +106,9 @@ public class TransactionController {
 			
 			payment.setOperationType(4);
 			payment.setBalance(payment.getAmount());
-			payment.setEventDate(LocalDate.now());
-			payment.setDueDate(getDueDate());
+			if (payment.getEventDate() == null)
+				payment.setEventDate(LocalDate.now());
+			payment.setDueDate(getDueDate(payment.getEventDate()));
 			
 			try {
 				transactionDAO.save(payment);
@@ -118,8 +121,8 @@ public class TransactionController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	private LocalDate getDueDate() {
-		return LocalDate.now().plusMonths(1);
+	private LocalDate getDueDate(LocalDate localDate) {
+		return localDate.plusMonths(1);
 	}
 	
 	private int getChargeOrder(int operationType) {

@@ -32,15 +32,23 @@ include::{snippets}/transactions/post/sucess/http-request.adoc[]
 
 include::{snippets}/transactions/post/sucess/http-response.adoc[]
 
+==== 400 Bad Request
+
+Caso seja enviado um JSON malformado. O retorno sempre será um objeto com o `id` do objeto em questão 
+e o campo `errorMessage`, com os detalhes do erro.
+
+include::{snippets}/transactions/post/fail/http-request.adoc[]
+include::{snippets}/transactions/post/fail/http-response.adoc[]
+include::{snippets}/transactions/post/fail/response-fields.adoc[]
 
 
 '''
 
 
-[[resource-transaction-getlimits]]
-=== GET ACCOUNT LIMITS
+[[resource-transaction-gettransactions]]
+=== GET TRANSACTIONS
 
-Retorna todos objetos do tipo `Account` em um Array com seus respectivos limites
+Retorna todos objetos do tipo `Transaction` em um Array.
 
 ==== Exemplo de request
 
@@ -54,30 +62,19 @@ include::{snippets}/transactions/get/sucess/http-response.adoc[]
 '''
 
 
-[[resource-transaction-patch]]
-=== PATCH ACCOUNT
+[[resource-transaction-post]]
+=== POST PAYMENT
 
-Emite um comando para impactar o saldo de uma `Account`
-
-==== URL
-
-include::{snippets}/transactions/patch/sucess/path-parameters.adoc[]
+Cria um `Payment`, e processa esse pagamento de acordo com as regras de negócio
 
 ==== Descrição dos Campos
 
-include::{snippets}/transactions/patch/sucess/request-fields.adoc[]
+include::{snippets}/payments/post/sucess/request-fields.adoc[]
 
 ==== Exemplo de request
 
-include::{snippets}/transactions/patch/sucess/http-request.adoc[]
+include::{snippets}/payments/post/sucess/http-request.adoc[]
 
 ==== Exemplo de response
 
-include::{snippets}/transactions/patch/sucess/http-response.adoc[]
-
-==== 404 Not Found
-
-Caso seja fornecido um `{id}` de resultado inexistente
-
-include::{snippets}/transactions/patch/fail/http-request.adoc[]
-include::{snippets}/transactions/patch/fail/http-response.adoc[]
+include::{snippets}/payments/post/sucess/http-response.adoc[]

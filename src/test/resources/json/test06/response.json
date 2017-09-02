@@ -1,0 +1,53 @@
+[
+      {
+      "id": 1,
+      "accountId": 1,
+      "operationType": 1,
+      "amount": -500,
+      "balance": 0,
+      "eventDate":       [
+         2017,
+         9,
+         1
+      ],
+      "dueDate":       [
+         2017,
+         10,
+         1
+      ]
+   },
+      {
+      "id": 2,
+      "accountId": 1,
+      "operationType": 4,
+      "amount": 250,
+      "balance": 0,
+      "eventDate":       [
+         2017,
+         9,
+         2
+      ],
+      "dueDate":       [
+         2017,
+         10,
+         2
+      ]
+   },
+      {
+      "id": 3,
+      "accountId": 1,
+      "operationType": 4,
+      "amount": 250,
+      "balance": 0,
+      "eventDate":       [
+         2017,
+         9,
+         2
+      ],
+      "dueDate":       [
+         2017,
+         10,
+         2
+      ]
+   }
+]

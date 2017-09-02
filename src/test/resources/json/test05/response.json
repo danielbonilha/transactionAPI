@@ -1,0 +1,14 @@
+[
+   {
+      "id": 1,
+      "creditTransactionId": 1,
+      "debitTransactionId": 2,
+      "amount": 250
+   },
+      {
+      "id": 2,
+      "creditTransactionId": 1,
+      "debitTransactionId": 3,
+      "amount": 250
+   }
+]

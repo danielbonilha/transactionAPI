@@ -1,5 +1,10 @@
 {
 	"accountId": 1,
 	"amount": 500,
-	"operationType": 1
+	"operationType": 1,
+    "eventDate":    [
+      2017,
+      9,
+      1
+   ]
 }

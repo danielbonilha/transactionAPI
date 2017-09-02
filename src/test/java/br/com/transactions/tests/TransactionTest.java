@@ -80,7 +80,9 @@ public class TransactionTest {
                         		fieldWithPath("amount").description("Valor da transação")
                         			.attributes(key("constraints").value("Campo obrigatório.")),
                         		fieldWithPath("operationType").description("Tipo de Operação")
-                        			.attributes(key("constraints").value("Campo opcional."))
+                        			.attributes(key("constraints").value("Campo opcional.")),
+                        		fieldWithPath("eventDate").description("Tipo de Operação")
+                        			.attributes(key("constraints").value("Campo opcional. Se não enviado, será considerado D0"))
                         )));
 	}
 	
@@ -103,21 +105,6 @@ public class TransactionTest {
 	                        )));
 	}
 	
-	
-	@Test
-	public void t03_getAllTransactions() throws Exception {
-		String jsonResponse = getResourceAsString("json/test03/response.json");
-		this.mockMvc.perform(
-			get("/v1/transactions")
-				.accept(MediaTypes.HAL_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().json(jsonResponse))
-				.andDo(document("transactions/get/sucess", 
-						preprocessRequest(prettyPrint()), 
-						preprocessResponse(prettyPrint())));
-	}
-	
-	
 	@Test
 	public void t04_postOnePaymentSucess() throws Exception {
 		String jsonRequest = getResourceAsString("json/test04/request.json");
@@ -127,6 +114,32 @@ public class TransactionTest {
 				.contentType(MediaTypes.HAL_JSON))
 				.andExpect(status().isNoContent())
 				.andDo(document("payments/post/sucess", 
+						preprocessRequest(prettyPrint()), 
+						preprocessResponse(prettyPrint())));
+	}
+	
+	@Test
+	public void t05_getPaymentsTrack() throws Exception {
+		String jsonResponse = getResourceAsString("json/test05/response.json");
+		this.mockMvc.perform(
+			get("/v1/tracking")
+				.accept(MediaTypes.HAL_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().json(jsonResponse))
+				.andDo(document("tracking/post/sucess", 
+						preprocessRequest(prettyPrint()), 
+						preprocessResponse(prettyPrint())));
+	}
+	
+	@Test
+	public void t06_getAllTransactions() throws Exception {
+		String jsonResponse = getResourceAsString("json/test06/response.json");
+		this.mockMvc.perform(
+			get("/v1/transactions")
+				.accept(MediaTypes.HAL_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().json(jsonResponse))
+				.andDo(document("transactions/get/sucess", 
 						preprocessRequest(prettyPrint()), 
 						preprocessResponse(prettyPrint())));
 	}

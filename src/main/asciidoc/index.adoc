@@ -45,7 +45,24 @@ include::{snippets}/transactions/post/fail/response-fields.adoc[]
 '''
 
 
-[[resource-transaction-gettransactions]]
+[[resource-payment-post]]
+=== POST PAYMENT
+
+Cria um `Payment`, e processa esse pagamento de acordo com as regras de negócio
+
+==== Exemplo de request
+
+include::{snippets}/payments/post/sucess/http-request.adoc[]
+
+==== Exemplo de response
+
+include::{snippets}/payments/post/sucess/http-response.adoc[]
+
+
+'''
+
+
+[[resource-transaction-get]]
 === GET TRANSACTIONS
 
 Retorna todos objetos do tipo `Transaction` em um Array.
@@ -63,18 +80,14 @@ include::{snippets}/transactions/get/sucess/http-response.adoc[]
 
 
 [[resource-transaction-post]]
-=== POST PAYMENT
+=== GET PAYMENT TRACKS
 
-Cria um `Payment`, e processa esse pagamento de acordo com as regras de negócio
-
-==== Descrição dos Campos
-
-include::{snippets}/payments/post/sucess/request-fields.adoc[]
+Retorna todos os `PaymentTracks`
 
 ==== Exemplo de request
 
-include::{snippets}/payments/post/sucess/http-request.adoc[]
+include::{snippets}/tracking/post/sucess/http-request.adoc[]
 
 ==== Exemplo de response
 
-include::{snippets}/payments/post/sucess/http-response.adoc[]
+include::{snippets}/tracking/post/sucess/http-response.adoc[]

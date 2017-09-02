@@ -56,25 +56,12 @@ public class PaymentService {
 	}
 	
 	private void executePayment(Transaction transactions, Transaction payment) {
-		//pega saldo do pagamento
 		double paymentBalance = payment.getBalance();
-		
-		//pega saldo devedor da transacao
 		double transactionBalance = transactions.getBalance();
-
-		//escolhe o valor a ser utilizado para abatimento
 		double amountToSettle = paymentBalance > -transactionBalance ? -transactionBalance : paymentBalance;
-		
-		//impacta saldo da transacao
 		transactions.setBalance(transactions.getBalance() + amountToSettle);
-		
-		//impacta saldo do pagamento
 		payment.setBalance(payment.getBalance() - amountToSettle);
-		
-		//atualiza os limites de account
 		remoteServiceHandler.updateAccountLimits(payment.getAccountId(), amountToSettle);
-		
-		//cria log dos event
 		trackPayment(payment, transactions, amountToSettle);
 	}
 	
@@ -86,7 +73,7 @@ public class PaymentService {
 		try {
 			trackingDAO.save(tracking);
 		} catch (Exception e) {
-			logger.error("Erro ao salvar log de transação");
+			logger.error("Erro ao salvar payment track");
 		}
 	}
 	

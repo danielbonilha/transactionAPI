@@ -6,5 +6,6 @@ public class API {
 	public static final String TRANSACTIONS			= "/transactions";
 	public static final String PAYMENTS				= "/payments";
 	public static final String ACCOUNT_LIMIT_SVC 	= V1 + "/accounts";
+	public static final String TRACKING 			= "/tracking";
 	
 }

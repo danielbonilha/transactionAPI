@@ -22,6 +22,7 @@ public class RemoteServiceHandler {
 	
 	@Autowired
 	RestTemplate restTemplate;
+	
 
 	public void updateAccountLimits(int accountId, double amountToSettle) {
 		Account acc = new Account();
@@ -37,6 +38,5 @@ public class RemoteServiceHandler {
 		} catch (Exception e) {
 			logger.error("Erro ao conectar no serviço accountService", e);
 		}
-		
 	}
 }

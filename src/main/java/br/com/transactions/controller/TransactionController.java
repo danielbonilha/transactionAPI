@@ -80,7 +80,7 @@ public class TransactionController {
 		
 		try {
 			transactionDAO.save(newOne);
-			remoteServiceHandler.updateAccountLimits(newOne.getAccountId(), -newOne.getAmount());
+			remoteServiceHandler.updateAccountLimits(newOne.getAccountId(), newOne.getAmount());
 			return new ResponseEntity<>(viewHelper.getTransactionView(newOne), HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error("Erro ao criar transaction", e);
